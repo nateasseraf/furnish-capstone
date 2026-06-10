@@ -23,6 +23,9 @@ function Home() {
   const remaining = calculateRemainingBudget(totalBudget, items)
   const topUp = calculateTopUpNeeded(totalBudget, items)
 
+  const isOverBudget = remaining < 0
+  const remainingDisplay = Math.abs(remaining)
+
   const spentPercentage =
     totalBudget > 0 ? Math.min((spent / totalBudget) * 100, 100) : 0
 
@@ -33,7 +36,9 @@ function Home() {
 
   const insights = [
     `You have spent $${spent} so far.`,
-    `You have $${remaining} remaining.`,
+    isOverBudget
+      ? `You are $${remainingDisplay} over budget.`
+      : `You have $${remaining} remaining.`,
     `You have $${planned} in planned purchases.`,
     topUp > 0
       ? `Add $${topUp} to your room budgets to afford all planned items.`
@@ -84,11 +89,11 @@ function Home() {
             <>
               <span>Let&apos;s get started</span>
               <p>
-                1. Enter your rooms and budgets in the Budget tab.
+                1. Enter your rooms and budgets in the Budget tab
                 <br />
-                2. Add items you&apos;ve purchased or are planning to purchase.
+                2. Add items you&apos;ve purchased or are planning to purchase
                 <br />
-                3. Stay on track as your apartment plan comes together.
+                3. Stay on track as your home comes together
               </p>
             </>
           ) : (
@@ -117,9 +122,16 @@ function Home() {
         </div>
 
         <div className="card stat-card">
-          <h3>Remaining</h3>
-          <p className="stat">${remaining}</p>
-          <small>Available budget</small>
+          <h3>{isOverBudget ? 'Over Budget' : 'Remaining'}</h3>
+          <p
+            className="stat"
+            style={{
+              color: isOverBudget ? '#b42318' : undefined,
+            }}
+          >
+            ${remainingDisplay}
+          </p>
+          <small>{isOverBudget ? 'Budget exceeded' : 'Available budget'}</small>
         </div>
 
         <div className="card stat-card">

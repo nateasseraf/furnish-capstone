@@ -1,25 +1,23 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useFurnish } from '../context/FurnishContext'
+import { useState } from "react";
+import { useFurnish } from "../context/FurnishContext";
 
 function AddItem() {
-  const { rooms, addItem } = useFurnish()
-  const navigate = useNavigate()
+  const { rooms, addItem } = useFurnish();
 
-  const [productUrl, setProductUrl] = useState('')
-  const [name, setName] = useState('')
-  const [store, setStore] = useState('')
-  const [price, setPrice] = useState('')
-  const [roomId, setRoomId] = useState(rooms[0]?.id || '')
-  const [status, setStatus] = useState('Planned')
-  const [message, setMessage] = useState('')
+  const [productUrl, setProductUrl] = useState("");
+  const [name, setName] = useState("");
+  const [store, setStore] = useState("");
+  const [price, setPrice] = useState("");
+  const [roomId, setRoomId] = useState(rooms[0]?.id || "");
+  const [status, setStatus] = useState("Planned");
+  const [message, setMessage] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!name || !store || !price || !roomId) {
-      setMessage('Please complete the required fields.')
-      return
+      setMessage("Please complete the required fields.");
+      return;
     }
 
     addItem({
@@ -29,10 +27,20 @@ function AddItem() {
       price,
       roomId,
       status,
-    })
+    });
 
-    navigate('/rooms')
-  }
+    setProductUrl("");
+    setName("");
+    setStore("");
+    setPrice("");
+    setRoomId(rooms[0]?.id || "");
+    setStatus("Planned");
+    setMessage("Item added successfully!");
+
+    setTimeout(() => {
+      setMessage("");
+    }, 3000);
+  };
 
   return (
     <section>
@@ -40,7 +48,7 @@ function AddItem() {
       <p>Add a furniture item and save the shopping link for later.</p>
 
       <form className="form-card" onSubmit={handleSubmit}>
-        {message && <p>{message}</p>}
+        {message && <p className="success-message">{message}</p>}
 
         <label>
           Product Link
@@ -79,7 +87,7 @@ function AddItem() {
             inputMode="numeric"
             placeholder="349"
             value={price}
-            onChange={(e) => setPrice(e.target.value.replace(/\D/g, ''))}
+            onChange={(e) => setPrice(e.target.value.replace(/\D/g, ""))}
           />
         </label>
 
@@ -105,7 +113,7 @@ function AddItem() {
         <button type="submit">Save Item</button>
       </form>
     </section>
-  )
+  );
 }
 
-export default AddItem
+export default AddItem;

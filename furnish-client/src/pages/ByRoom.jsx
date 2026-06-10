@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useFurnish } from "../context/FurnishContext";
 
 function ByRoom() {
-  const { rooms, items, toggleItemStatus, updateItem } = useFurnish();
+  const { rooms, items, toggleItemStatus, updateItem, deleteItem } =
+    useFurnish();
 
   const [expandedRoomId, setExpandedRoomId] = useState(null);
   const [editingItemId, setEditingItemId] = useState(null);
@@ -40,6 +41,17 @@ function ByRoom() {
     setEditingItemId(null);
   };
 
+  const handleDeleteItem = (item) => {
+    const confirmed = window.confirm(
+      `Delete ${item.name}? This cannot be undone.`,
+    );
+
+    if (!confirmed) return;
+
+    deleteItem(item.id);
+    setEditingItemId(null);
+  };
+
   return (
     <section>
       <h2>By Room</h2>
@@ -61,7 +73,8 @@ function ByRoom() {
             .filter((item) => item.status === "Planned")
             .reduce((total, item) => total + item.price, 0);
 
-          const remaining = room.budget - boughtTotal;
+          const overBudget = boughtTotal > room.budget;
+          const difference = Math.abs(room.budget - boughtTotal);
           const usedPercentage =
             room.budget > 0
               ? Math.min((boughtTotal / room.budget) * 100, 100)
@@ -107,10 +120,9 @@ function ByRoom() {
                   </div>
 
                   <div>
-                    <strong>${remaining}</strong>
-                    <span>Remaining</span>
+                    <strong>${difference}</strong>
+                    <span>{overBudget ? "Over Budget" : "Remaining"}</span>
                   </div>
-
                   <div>
                     <strong>${plannedTotal}</strong>
                     <span>Planned</span>
@@ -225,11 +237,19 @@ function ByRoom() {
 
                         <div className="item-actions">
                           <button type="submit">Save</button>
+
                           <button
                             type="button"
                             onClick={() => setEditingItemId(null)}
                           >
                             Cancel
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteItem(item)}
+                          >
+                            Delete
                           </button>
                         </div>
                       </form>

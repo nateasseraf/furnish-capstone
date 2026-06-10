@@ -33,9 +33,7 @@ function Budget() {
     const roomDeleted = deleteRoom(room.id);
 
     if (!roomDeleted) {
-      alert(
-        "You need to delete the item(s) in this room before deleting it.",
-      );
+      alert("You need to delete the item(s) in this room before deleting it.");
     }
   };
 
