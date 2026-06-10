@@ -151,7 +151,7 @@ https://github.com/nateasseraf/furnish-capstone
 ---
 ## Live Demo
 
-https://your-deployment-url.com
+https://furnish-capstone.vercel.app/
 ___
 
 ## Application Structure
