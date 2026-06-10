@@ -1,0 +1,292 @@
+# Furnish
+
+Furnish is an apartment furnishing planner that helps users organize furniture purchases by room, manage budgets, and track planned versus purchased items.
+
+Built as a capstone project for the McGill x Circuit Stream Software Development Bootcamp, the application focuses on solving a real-world problem faced by renters, homeowners, and anyone furnishing a new space.
+
+---
+
+## Project Overview
+
+When furnishing an apartment, it is common to track furniture purchases across multiple websites, notes, spreadsheets, and bookmarks. Furnish centralizes that process into a single application.
+
+Users can:
+
+- Create rooms
+- Set room budgets
+- Add furniture items
+- Save product links
+- Track planned and purchased items
+- View spending progress
+- Monitor remaining budget
+- Receive smart budget insights
+
+The goal is to provide a simple and modern dashboard for managing furnishing projects from start to finish.
+
+---
+
+## Features
+
+### Authentication
+
+- User registration
+- User login
+- Protected routes
+- User profile page
+- Change password functionality
+- Session persistence using localStorage
+
+### Room Management
+
+- Create custom rooms
+- Prevent duplicate room names
+- Set budgets by room
+- View room-level budget summaries
+
+### Furniture Management
+
+- Add furniture items
+- Assign items to rooms
+- Save retailer information
+- Save product URLs
+- Edit existing items
+- Delete items
+- View item details
+- Toggle items between:
+  - Planned
+  - Purchased
+
+### Budget Tracking
+
+- Total budget calculation
+- Total spent calculation
+- Remaining budget calculation
+- Planned purchase calculation
+- Room-specific spending summaries
+
+### Dashboard
+
+- Total budget overview
+- Amount spent
+- Remaining budget
+- Planned purchases
+- Progress indicators
+- Smart budget insight banner
+
+### Responsive Design
+
+- Desktop optimized layout
+- Mobile responsive layout
+- Stacked cards on mobile devices
+- Mobile navigation support
+
+---
+
+## Technologies Used
+
+### Front-End
+
+- React
+- Vite
+- React Router
+
+### State Management
+
+- React Context API
+- React Hooks
+
+### Styling
+
+- CSS
+- Responsive Design
+- CSS Grid
+- Flexbox
+
+### Data Persistence
+
+- localStorage
+
+---
+
+## Installation
+
+Clone the repository:
+
+    git clone YOUR_REPOSITORY_LINK_HERE
+
+Navigate to the project folder:
+
+    cd furnish-client
+
+Install dependencies:
+
+    npm install
+
+Start the development server:
+
+    npm run dev
+
+Open the application:
+
+    http://localhost:5173
+
+---
+
+## Live Demo
+
+Add your deployed application URL here:
+
+    https://your-deployment-url.com
+
+---
+
+## GitHub Repository
+
+Add your GitHub repository URL here:
+
+    https://github.com/yourusername/furnish
+
+---
+
+## Application Structure
+
+src
+
+├── components
+
+│ ├── Header.jsx
+
+│ ├── NavTabs.jsx
+
+│ └── ProtectedRoute.jsx
+
+├── context
+
+│ ├── AuthContext.jsx
+
+│ └── FurnishContext.jsx
+
+├── pages
+
+│ ├── AddItem.jsx
+
+│ ├── Budget.jsx
+
+│ ├── ByRoom.jsx
+
+│ ├── Home.jsx
+
+│ ├── Login.jsx
+
+│ ├── Profile.jsx
+
+│ └── Register.jsx
+
+├── utils
+
+│ └── budgetUtils.js
+
+├── App.jsx
+
+├── main.jsx
+
+└── index.css
+
+---
+
+## Key Design Decisions
+
+### Context API
+
+React Context was chosen to manage shared application data such as:
+
+- Rooms
+- Furniture items
+- User authentication
+
+This avoided unnecessary prop drilling and made state accessible throughout the application.
+
+### Local Storage
+
+Local Storage was used instead of a backend database to:
+
+- Keep the project lightweight
+- Demonstrate front-end state persistence
+- Allow users to retain data between sessions
+
+### Product Links
+
+Instead of attempting unreliable web scraping, users manually save product links. This keeps the application simple while still providing quick access back to retailer product pages.
+
+### Responsive Layout
+
+The interface was designed with both desktop and mobile experiences in mind. Components automatically adapt to smaller screens using CSS Grid and Flexbox.
+
+---
+
+## Testing
+
+The following functionality was tested during development:
+
+### Authentication
+
+- User registration
+- User login
+- User logout
+- Protected route access
+
+### Room Management
+
+- Add room
+- Duplicate room prevention
+- Budget updates
+
+### Furniture Management
+
+- Add item
+- Edit item
+- Delete item
+- Mark item as purchased
+- Mark item as planned
+- View saved product link
+
+### Budget Calculations
+
+- Total budget calculations
+- Remaining budget calculations
+- Planned purchase calculations
+- Room summaries
+
+### Responsive Design
+
+- Desktop view
+- Tablet view
+- Mobile view
+
+---
+
+## Future Improvements
+
+Potential future enhancements include:
+
+- Backend integration using Node.js and Express
+- MongoDB database storage
+- User accounts stored in a database
+- Real product metadata extraction
+- Product image support
+- Room cover images
+- Budget warning notifications
+- Item filtering and sorting
+- Search functionality
+- Sharing furnishing plans with others
+- Unit and integration testing
+
+---
+
+## Development Reflection
+
+This project allowed me to apply many concepts learned throughout the bootcamp, including React development, routing, state management, component architecture, responsive design, and user experience considerations.
+
+One of the biggest lessons learned was balancing functionality with usability. While building the application, I continuously refined the interface to make it feel more like a real product rather than simply meeting technical requirements.
+
+The final result is a practical application that solves a real-world problem while demonstrating modern front-end development practices.
