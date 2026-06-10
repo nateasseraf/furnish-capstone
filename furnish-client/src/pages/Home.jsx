@@ -29,6 +29,8 @@ function Home() {
   const plannedPercentage =
     totalBudget > 0 ? Math.min((planned / totalBudget) * 100, 100) : 0
 
+  const shouldShowInsight = totalBudget > 0 || spent > 0 || planned > 0
+
   const insights = [
     `You have spent $${spent} so far.`,
     `You have $${remaining} remaining.`,
@@ -77,10 +79,12 @@ function Home() {
           <p>Here is your apartment furnishing snapshot.</p>
         </div>
 
-        <div className="insight-banner">
-          <span>Smart Budget Insight</span>
-          <p>{selectedInsight}</p>
-        </div>
+        {shouldShowInsight && (
+          <div className="insight-banner">
+            <span>Smart Budget Insight</span>
+            <p>{selectedInsight}</p>
+          </div>
+        )}
       </div>
 
       <div className="dashboard-grid">

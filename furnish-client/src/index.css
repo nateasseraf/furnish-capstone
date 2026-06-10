@@ -14,6 +14,7 @@
   --danger: #b42318;
   --shadow: 0 12px 30px rgba(31, 31, 31, 0.08);
   --radius: 20px;
+  --accent: #d5a17a;
 }
 
 body {
@@ -108,13 +109,13 @@ section {
   margin: 0 auto;
 }
 
-section > h2 {
+section>h2 {
   font-size: 36px;
   margin: 0 0 8px;
   letter-spacing: -0.04em;
 }
 
-section > p {
+section>p {
   color: var(--muted);
   margin-top: 0;
   font-size: 16px;
@@ -237,7 +238,7 @@ section > p {
 
 .progress-bar div {
   height: 100%;
-  background: var(--primary);
+  background: var(--accent);
   border-radius: 999px;
 }
 
@@ -295,7 +296,9 @@ button,
   padding: 12px 16px;
   cursor: pointer;
   font-weight: 800;
-  transition: transform 0.15s ease, opacity 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.15s ease;
 }
 
 button:hover,
@@ -380,7 +383,7 @@ button:hover,
   position: relative;
 }
 
-.account-menu > button {
+.account-menu>button {
   color: var(--text);
   background: var(--surface);
   border: 1px solid var(--border);
@@ -463,7 +466,7 @@ button:hover,
     padding: 28px 20px 80px;
   }
 
-  section > h2,
+  section>h2,
   .home-hero h2 {
     font-size: 30px;
   }
@@ -526,6 +529,7 @@ button:hover,
     box-shadow: var(--shadow);
   }
 }
+
 .banner-link {
   display: inline-block;
   width: fit-content;
@@ -536,4 +540,240 @@ button:hover,
   font-weight: 900;
   border-radius: 999px;
   padding: 10px 16px;
+}
+
+.room-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+
+}
+
+.room-delete-button {
+  background: var(--primary-soft);
+  color: var(--danger);
+  padding: 8px 12px;
+  font-size: 13px;
+
+}
+
+
+.logo-image {
+  height: 72px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+}
+
+.room-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+
+}
+
+.room-card-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+
+}
+
+.room-card-header h3 {
+  margin-bottom: 4px;
+
+}
+
+.room-subtitle {
+  margin: 0;
+  color: var(--muted);
+  font-weight: 700;
+
+}
+
+.room-delete-button {
+  background: var(--primary-soft);
+  color: var(--danger);
+  padding: 8px 12px;
+  font-size: 13px;
+
+}
+
+.room-budget-highlight {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+}
+
+.room-budget-highlight span {
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+
+}
+
+.room-budget-highlight small,
+
+.room-progress-text {
+  color: var(--muted);
+  font-weight: 700;
+
+}
+
+.room-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+
+}
+
+.room-stats div {
+  background: var(--surface-soft);
+  border-radius: 16px;
+  padding: 12px;
+
+}
+
+.room-stats strong {
+  display: block;
+  font-size: 18px;
+
+}
+
+.room-stats span {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 700;
+
+}
+
+.empty-state {
+  border-top: 1px solid var(--border);
+  padding-top: 16px;
+
+}
+
+.empty-state p {
+  margin-bottom: 4px;
+  font-weight: 800;
+
+}
+
+.empty-state span {
+  color: var(--muted);
+  font-size: 14px;
+
+}
+
+.status-badge {
+  display: inline-block;
+  width: fit-content;
+  margin-top: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 900;
+
+}
+
+.status-badge.planned {
+  background: var(--primary-soft);
+  color: var(--text);
+
+}
+
+.status-badge.bought {
+  background: #dff3e4;
+  color: #176b34;
+
+}
+
+.recent-activity-card {
+  margin-top: 24px;
+
+}
+
+.recent-activity-card ul {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--muted);
+  line-height: 1.8;
+
+}
+
+@media (max-width: 768px) {
+  .logo-image {
+    height: 54px;
+
+  }
+  .room-stats {
+    grid-template-columns: 1fr;
+
+  }
+}
+
+.room-expand-button {
+  background: none;
+  color: var(--text);
+  padding: 0;
+  border-radius: 0;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+  flex: 1;
+}
+
+.room-expand-button:hover {
+  transform: none;
+  opacity: 1;
+}
+
+.room-expand-button span {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.item-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.view-item-link {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.room-details {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .room-details {
+    display: none;
+  }
+
+  .room-details.expanded {
+    display: block;
+  }
+}
+
+@media (min-width: 769px) {
+  .room-expand-button span {
+    display: none;
+  }
+
+  .room-expand-button {
+    cursor: default;
+  }
 }

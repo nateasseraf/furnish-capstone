@@ -37,7 +37,7 @@ function Register() {
           <input
             type="text"
             required
-            placeholder="Nate"
+            placeholder="John"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
           />
@@ -48,7 +48,7 @@ function Register() {
           <input
             type="text"
             required
-            placeholder="Asseraf"
+            placeholder="Doe"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />

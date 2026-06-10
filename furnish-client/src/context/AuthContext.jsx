@@ -9,6 +9,10 @@ export function AuthProvider({ children }) {
   })
 
   const register = (firstName, lastName, email, password) => {
+    localStorage.removeItem('furnishRooms')
+    localStorage.removeItem('furnishItems')
+    localStorage.removeItem('furnishActivity')
+
     const newUser = {
       firstName,
       lastName,

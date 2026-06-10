@@ -16,9 +16,9 @@ function NavTabs() {
         </>
       ) : (
         <>
-          <span className="disabled-tab">By Room 🔒</span>
-          <span className="disabled-tab">Add Item 🔒</span>
-          <span className="disabled-tab">Budget 🔒</span>
+          <span className="disabled-tab">By Room</span>
+          <span className="disabled-tab">Add Item</span>
+          <span className="disabled-tab">Budget</span>
         </>
       )}
     </nav>

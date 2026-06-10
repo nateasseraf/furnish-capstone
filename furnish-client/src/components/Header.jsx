@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import logo from '../assets/logo.png'
 
 function Header() {
   const { user, logout } = useAuth()
@@ -8,7 +9,9 @@ function Header() {
 
   return (
     <header>
-      <h1>Furnish</h1>
+      <Link to="/" className="logo-link">
+        <img src={logo} alt="Furnish logo" className="logo-image" />
+      </Link>
 
       {user ? (
         <div className="account-menu">
@@ -18,8 +21,18 @@ function Header() {
 
           {isOpen && (
             <div className="dropdown">
-              <Link to="/profile">Profile</Link>
-              <button onClick={logout}>Log out</button>
+              <Link to="/profile" onClick={() => setIsOpen(false)}>
+                Profile
+              </Link>
+
+              <button
+                onClick={() => {
+                  logout()
+                  setIsOpen(false)
+                }}
+              >
+                Log out
+              </button>
             </div>
           )}
         </div>

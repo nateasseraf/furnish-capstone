@@ -1,62 +1,82 @@
-import { useState } from 'react'
-import { useFurnish } from '../context/FurnishContext'
+import { useState } from "react";
+import { useFurnish } from "../context/FurnishContext";
 
 function ByRoom() {
   const {
     rooms,
     items,
     addRoom,
+    deleteRoom,
     deleteItem,
     toggleItemStatus,
     updateItem,
-  } = useFurnish()
+  } = useFurnish();
 
-  const [roomName, setRoomName] = useState('')
-  const [editingItemId, setEditingItemId] = useState(null)
+  const [roomName, setRoomName] = useState("");
+  const [expandedRoomId, setExpandedRoomId] = useState(null);
+  const [editingItemId, setEditingItemId] = useState(null);
+
   const [editForm, setEditForm] = useState({
-    productUrl: '',
-    name: '',
-    store: '',
-    price: '',
-    roomId: '',
-    status: 'Planned',
-  })
+    productUrl: "",
+    name: "",
+    store: "",
+    price: "",
+    roomId: "",
+    status: "Planned",
+  });
 
   const handleAddRoom = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const roomAdded = addRoom(roomName)
+    const roomAdded = addRoom(roomName);
 
     if (!roomAdded) {
-      alert('A room with that name already exists.')
-      return
+      alert("A room with that name already exists.");
+      return;
     }
 
-    setRoomName('')
-  }
+    setRoomName("");
+  };
+
+  const handleDeleteRoom = (room) => {
+    const confirmed = window.confirm(
+      `Delete ${room.name}? This cannot be undone.`,
+    );
+
+    if (!confirmed) return;
+
+    const roomDeleted = deleteRoom(room.id);
+
+    if (!roomDeleted) {
+      alert(
+        "You need to delete or move the items in this room before deleting it.",
+      );
+    }
+  };
+
+  const toggleRoom = (roomId) => {
+    setExpandedRoomId((currentRoomId) =>
+      currentRoomId === roomId ? null : roomId,
+    );
+  };
 
   const startEditing = (item) => {
-    setEditingItemId(item.id)
+    setEditingItemId(item.id);
     setEditForm({
-      productUrl: item.productUrl || '',
+      productUrl: item.productUrl || "",
       name: item.name,
       store: item.store,
       price: item.price,
       roomId: item.roomId,
       status: item.status,
-    })
-  }
-
-  const cancelEditing = () => {
-    setEditingItemId(null)
-  }
+    });
+  };
 
   const saveEdit = (e) => {
-    e.preventDefault()
-
-    updateItem(editingItemId, editForm)
-    setEditingItemId(null)
-  }
+    e.preventDefault();
+    updateItem(editingItemId, editForm);
+    setEditingItemId(null);
+  };
 
   return (
     <section>
@@ -75,179 +95,235 @@ function ByRoom() {
 
       <div className="room-grid">
         {rooms.map((room) => {
-          const roomItems = items.filter((item) => item.roomId === room.id)
+          const isExpanded = expandedRoomId === room.id;
+          const roomItems = items.filter((item) => item.roomId === room.id);
 
           const boughtTotal = roomItems
-            .filter((item) => item.status === 'Bought')
-            .reduce((total, item) => total + item.price, 0)
+            .filter((item) => item.status === "Bought")
+            .reduce((total, item) => total + item.price, 0);
 
           const plannedTotal = roomItems
-            .filter((item) => item.status === 'Planned')
-            .reduce((total, item) => total + item.price, 0)
+            .filter((item) => item.status === "Planned")
+            .reduce((total, item) => total + item.price, 0);
 
-          const remaining = room.budget - boughtTotal
+          const remaining = room.budget - boughtTotal;
+          const usedPercentage =
+            room.budget > 0
+              ? Math.min((boughtTotal / room.budget) * 100, 100)
+              : 0;
 
           return (
-            <div className="card" key={room.id}>
-              <h3>{room.name}</h3>
-              <p>Budget: ${room.budget}</p>
-              <p>Spent: ${boughtTotal}</p>
-              <p>Remaining: ${remaining}</p>
-              <p>Planned: ${plannedTotal}</p>
-              <p>Items: {roomItems.length}</p>
+            <div className="card room-card" key={room.id}>
+              <div className="room-card-header">
+                <button
+                  type="button"
+                  className="room-expand-button"
+                  onClick={() => toggleRoom(room.id)}
+                >
+                  <div>
+                    <h3>{room.name}</h3>
+                    <p className="room-subtitle">
+                      {roomItems.length} item(s) • ${room.budget} budget
+                    </p>
+                  </div>
 
-              {roomItems.length === 0 && <p>No items added yet.</p>}
+                  <span>{isExpanded ? "−" : "+"}</span>
+                </button>
 
-              {roomItems.map((item) => (
-                <div className="item-row" key={item.id}>
-                  {editingItemId === item.id ? (
-                    <form className="edit-form" onSubmit={saveEdit}>
-                      <label>
-                        Product Link
-                        <input
-                          type="url"
-                          value={editForm.productUrl}
-                          onChange={(e) =>
-                            setEditForm({
-                              ...editForm,
-                              productUrl: e.target.value,
-                            })
-                          }
-                        />
-                      </label>
+                <button
+                  type="button"
+                  className="room-delete-button"
+                  onClick={() => handleDeleteRoom(room)}
+                >
+                  Delete
+                </button>
+              </div>
 
-                      <label>
-                        Item Name
-                        <input
-                          type="text"
-                          value={editForm.name}
-                          onChange={(e) =>
-                            setEditForm({
-                              ...editForm,
-                              name: e.target.value,
-                            })
-                          }
-                        />
-                      </label>
+<div className={`room-details ${isExpanded ? 'expanded' : ''}`}>
+  <div className="room-budget-highlight">
+    <span>${room.budget}</span>
+    <small>Total room budget</small>
+  </div>
 
-                      <label>
-                        Store
-                        <input
-                          type="text"
-                          value={editForm.store}
-                          onChange={(e) =>
-                            setEditForm({
-                              ...editForm,
-                              store: e.target.value,
-                            })
-                          }
-                        />
-                      </label>
+  <div className="progress-bar">
+    <div style={{ width: `${usedPercentage}%` }}></div>
+  </div>
 
-                      <label>
-                        Price
-                        <input
-                          type="text"
-                          inputMode="numeric"
-                          value={editForm.price}
-                          onChange={(e) =>
-                            setEditForm({
-                              ...editForm,
-                              price: e.target.value.replace(/\D/g, ''),
-                            })
-                          }
-                        />
-                      </label>
+  <small className="room-progress-text">
+    {Math.round(usedPercentage)}% of budget used
+  </small>
 
-                      <label>
-                        Room
-                        <select
-                          value={editForm.roomId}
-                          onChange={(e) =>
-                            setEditForm({
-                              ...editForm,
-                              roomId: e.target.value,
-                            })
-                          }
-                        >
-                          {rooms.map((availableRoom) => (
-                            <option
-                              key={availableRoom.id}
-                              value={availableRoom.id}
-                            >
-                              {availableRoom.name}
-                            </option>
-                          ))}
-                        </select>
-                      </label>
+  <div className="room-stats">
+    <div>
+      <strong>${boughtTotal}</strong>
+      <span>Spent</span>
+    </div>
 
-                      <label>
-                        Status
-                        <select
-                          value={editForm.status}
-                          onChange={(e) =>
-                            setEditForm({
-                              ...editForm,
-                              status: e.target.value,
-                            })
-                          }
-                        >
-                          <option>Planned</option>
-                          <option>Bought</option>
-                        </select>
-                      </label>
+    <div>
+      <strong>${remaining}</strong>
+      <span>Remaining</span>
+    </div>
 
-                      <div className="item-actions">
-                        <button type="submit">Save</button>
-                        <button type="button" onClick={cancelEditing}>
-                          Cancel
-                        </button>
-                      </div>
-                    </form>
-                  ) : (
-                    <>
-                      <div>
-                        <strong>{item.name}</strong>
-                        <p>
-                          {item.store} - ${item.price} - {item.status}
-                        </p>
+    <div>
+      <strong>${plannedTotal}</strong>
+      <span>Planned</span>
+    </div>
+  </div>
 
-                        {item.productUrl && (
-                          <a
-                            href={item.productUrl}
-                            target="_blank"
-                            rel="noreferrer"
-                          >
-                            View item
-                          </a>
-                        )}
-                      </div>
+  {roomItems.length === 0 && (
+    <div className="empty-state">
+      <p>No items added yet.</p>
+      <span>Add your first item from the Add Item page.</span>
+    </div>
+  )}
 
-                      <div className="item-actions">
-                        <button
-                          type="button"
-                          onClick={() => toggleItemStatus(item.id)}
-                        >
-                          {item.status === 'Bought'
-                            ? 'Mark as Planned'
-                            : 'Mark as Bought'}
-                        </button>
+  {roomItems.map((item) => (
+    <div className="item-row" key={item.id}>
+      {editingItemId === item.id ? (
+        <form className="edit-form" onSubmit={saveEdit}>
+          <label>
+            Product Link
+            <input
+              type="url"
+              value={editForm.productUrl}
+              onChange={(e) =>
+                setEditForm({
+                  ...editForm,
+                  productUrl: e.target.value,
+                })
+              }
+            />
+          </label>
 
-                        <button type="button" onClick={() => startEditing(item)}>
-                          Edit
-                        </button>
+          <label>
+            Item Name
+            <input
+              type="text"
+              value={editForm.name}
+              onChange={(e) =>
+                setEditForm({
+                  ...editForm,
+                  name: e.target.value,
+                })
+              }
+            />
+          </label>
 
-                        <button
-                          type="button"
-                          onClick={() => deleteItem(item.id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </>
-                  )}
-                </div>
+          <label>
+            Store
+            <input
+              type="text"
+              value={editForm.store}
+              onChange={(e) =>
+                setEditForm({
+                  ...editForm,
+                  store: e.target.value,
+                })
+              }
+            />
+          </label>
+
+          <label>
+            Price
+            <input
+              type="text"
+              inputMode="numeric"
+              value={editForm.price}
+              onChange={(e) =>
+                setEditForm({
+                  ...editForm,
+                  price: e.target.value.replace(/\D/g, ''),
+                })
+              }
+            />
+          </label>
+
+          <label>
+            Room
+            <select
+              value={editForm.roomId}
+              onChange={(e) =>
+                setEditForm({
+                  ...editForm,
+                  roomId: e.target.value,
+                })
+              }
+            >
+              {rooms.map((availableRoom) => (
+                <option key={availableRoom.id} value={availableRoom.id}>
+                  {availableRoom.name}
+                </option>
               ))}
+            </select>
+          </label>
+
+          <label>
+            Status
+            <select
+              value={editForm.status}
+              onChange={(e) =>
+                setEditForm({
+                  ...editForm,
+                  status: e.target.value,
+                })
+              }
+            >
+              <option>Planned</option>
+              <option>Bought</option>
+            </select>
+          </label>
+
+          <div className="item-actions">
+            <button type="submit">Save</button>
+            <button type="button" onClick={() => setEditingItemId(null)}>
+              Cancel
+            </button>
+          </div>
+        </form>
+      ) : (
+        <>
+          <div>
+            <strong>{item.name}</strong>
+            <p>
+              {item.store} - ${item.price}
+            </p>
+
+            <div className="item-meta">
+              <span className={`status-badge ${item.status.toLowerCase()}`}>
+                {item.status}
+              </span>
+
+              {item.productUrl && (
+                <a
+                  href={item.productUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="view-item-link"
+                >
+                  View item
+                </a>
+              )}
+            </div>
+          </div>
+
+          <div className="item-actions">
+            <button type="button" onClick={() => toggleItemStatus(item.id)}>
+              {item.status === 'Bought' ? 'Mark Planned' : 'Mark Bought'}
+            </button>
+
+            <button type="button" onClick={() => startEditing(item)}>
+              Edit
+            </button>
+
+            <button type="button" onClick={() => deleteItem(item.id)}>
+              Delete
+            </button>
+          </div>
+        </>
+      )}
+    </div>
+  ))}
+</div>
             </div>
           )
         })}
