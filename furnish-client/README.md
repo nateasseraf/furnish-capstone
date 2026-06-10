@@ -1,4 +1,4 @@
-# Furnish
+# Furnish - Apartment Furnishing Planner
 
 Furnish is an apartment furnishing planner that helps users organize furniture purchases by room, manage budgets, and track planned versus purchased items.
 
@@ -8,7 +8,7 @@ Built as a capstone project for the McGill x Circuit Stream Software Development
 
 ## Project Overview
 
-When furnishing an apartment, it is common to track furniture purchases across multiple websites, notes, spreadsheets, and bookmarks. Furnish centralizes that process into a single application.
+When I was furnishing my apartment, I had a hard time keeping track of furniture purchases across multiple websites, notes, spreadsheets, and bookmarks. Furnish centralizes that process into a single application.
 
 Users can:
 
@@ -21,7 +21,7 @@ Users can:
 - Monitor remaining budget
 - Receive smart budget insights
 
-The goal is to provide a simple and modern dashboard for managing furnishing projects from start to finish.
+The goal is to provide a simple and modern dashboard for managing furnishing projects from start to finish, while making smart financial decisions.
 
 ---
 
@@ -42,6 +42,7 @@ The goal is to provide a simple and modern dashboard for managing furnishing pro
 - Prevent duplicate room names
 - Set budgets by room
 - View room-level budget summaries
+- Delete empty rooms
 
 ### Furniture Management
 
@@ -50,11 +51,10 @@ The goal is to provide a simple and modern dashboard for managing furnishing pro
 - Save retailer information
 - Save product URLs
 - Edit existing items
-- Delete items
 - View item details
 - Toggle items between:
   - Planned
-  - Purchased
+  - Bought
 
 ### Budget Tracking
 
@@ -78,7 +78,7 @@ The goal is to provide a simple and modern dashboard for managing furnishing pro
 - Desktop optimized layout
 - Mobile responsive layout
 - Stacked cards on mobile devices
-- Mobile navigation support
+- Responsive navigation tabs
 
 ---
 
@@ -112,85 +112,73 @@ The goal is to provide a simple and modern dashboard for managing furnishing pro
 
 Clone the repository:
 
-    git clone YOUR_REPOSITORY_LINK_HERE
+```bash
+git clone https://github.com/nateasseraf/furnish-capstone.git
+```
 
 Navigate to the project folder:
 
-    cd furnish-client
+```bash
+cd furnish-capstone/furnish-client
+```
 
 Install dependencies:
 
-    npm install
+```bash
+npm install
+```
 
 Start the development server:
 
-    npm run dev
+```bash
+npm run dev
+```
 
 Open the application:
 
-    http://localhost:5173
-
----
-
-## Live Demo
-
-Add your deployed application URL here:
-
-    https://your-deployment-url.com
+```text
+http://localhost:5173
+```
 
 ---
 
 ## GitHub Repository
 
-Add your GitHub repository URL here:
+Repository:
 
-    https://github.com/yourusername/furnish
+https://github.com/nateasseraf/furnish-capstone
 
 ---
 
 ## Application Structure
 
+```text
 src
-
 ├── components
-
-│ ├── Header.jsx
-
-│ ├── NavTabs.jsx
-
-│ └── ProtectedRoute.jsx
-
+│   ├── Header.jsx
+│   ├── NavTabs.jsx
+│   └── ProtectedRoute.jsx
+│
 ├── context
-
-│ ├── AuthContext.jsx
-
-│ └── FurnishContext.jsx
-
+│   ├── AuthContext.jsx
+│   └── FurnishContext.jsx
+│
 ├── pages
-
-│ ├── AddItem.jsx
-
-│ ├── Budget.jsx
-
-│ ├── ByRoom.jsx
-
-│ ├── Home.jsx
-
-│ ├── Login.jsx
-
-│ ├── Profile.jsx
-
-│ └── Register.jsx
-
+│   ├── AddItem.jsx
+│   ├── Budget.jsx
+│   ├── ByRoom.jsx
+│   ├── Home.jsx
+│   ├── Login.jsx
+│   ├── Profile.jsx
+│   └── Register.jsx
+│
 ├── utils
-
-│ └── budgetUtils.js
-
+│   └── budgetUtils.js
+│
 ├── App.jsx
-
 ├── main.jsx
-
 └── index.css
+```
 
 ---
 
@@ -212,7 +200,6 @@ Local Storage was used instead of a backend database to:
 
 - Keep the project lightweight
 - Demonstrate front-end state persistence
-- Allow users to retain data between sessions
 
 ### Product Links
 
@@ -240,14 +227,15 @@ The following functionality was tested during development:
 - Add room
 - Duplicate room prevention
 - Budget updates
+- Room deletion validation
 
 ### Furniture Management
 
 - Add item
 - Edit item
-- Delete item
 - Mark item as purchased
 - Mark item as planned
+- Move items between rooms
 - View saved product link
 
 ### Budget Calculations
@@ -271,15 +259,13 @@ Potential future enhancements include:
 
 - Backend integration using Node.js and Express
 - MongoDB database storage
-- User accounts stored in a database
-- Real product metadata extraction
+- Multi-user support
 - Product image support
-- Room cover images
 - Budget warning notifications
-- Item filtering and sorting
 - Search functionality
-- Sharing furnishing plans with others
-- Unit and integration testing
+- Filtering and sorting
+- Shared furnishing projects
+- Price tracker
 
 ---
 
@@ -287,6 +273,6 @@ Potential future enhancements include:
 
 This project allowed me to apply many concepts learned throughout the bootcamp, including React development, routing, state management, component architecture, responsive design, and user experience considerations.
 
-One of the biggest lessons learned was balancing functionality with usability. While building the application, I continuously refined the interface to make it feel more like a real product rather than simply meeting technical requirements.
+One of the biggest lessons learned was balancing functionality with usability. While building the application, I continuously refined the interface based on testing and feedback to make it feel more like a real product rather than simply meeting technical requirements.
 
-The final result is a practical application that solves a real-world problem while demonstrating modern front-end development practices.
+The final result is a practical application that solves a real-world problem while demonstrating modern front-end development practices and the skills developed throughout the bootcamp.

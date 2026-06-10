@@ -38,7 +38,7 @@ function Profile() {
       <h2>Profile</h2>
       <p>Manage your account information.</p>
 
-      {message && <p>{message}</p>}
+      {message && <p className="success-message">{message}</p>}
 
       <form className="form-card" onSubmit={handleProfileSubmit}>
         <h3>Account Details</h3>

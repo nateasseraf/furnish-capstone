@@ -20,11 +20,6 @@ export function FurnishProvider({ children }) {
     return savedItems ? JSON.parse(savedItems) : []
   })
 
-  const [activity, setActivity] = useState(() => {
-    const savedActivity = localStorage.getItem('furnishActivity')
-    return savedActivity ? JSON.parse(savedActivity) : []
-  })
-
   useEffect(() => {
     localStorage.setItem('furnishRooms', JSON.stringify(rooms))
   }, [rooms])
@@ -33,19 +28,9 @@ export function FurnishProvider({ children }) {
     localStorage.setItem('furnishItems', JSON.stringify(items))
   }, [items])
 
-  useEffect(() => {
-    localStorage.setItem('furnishActivity', JSON.stringify(activity))
-  }, [activity])
-
-  const addActivity = (message) => {
-    setActivity((prev) => [
-      { id: Date.now(), message },
-      ...prev.slice(0, 4),
-    ])
-  }
-
   const addRoom = (roomName) => {
     const cleanRoomName = roomName.trim()
+
     if (!cleanRoomName) return false
 
     const roomExists = rooms.some(
@@ -56,16 +41,20 @@ export function FurnishProvider({ children }) {
 
     setRooms((prevRooms) => [
       ...prevRooms,
-      { id: Date.now(), name: cleanRoomName, budget: 0 },
+      {
+        id: Date.now(),
+        name: cleanRoomName,
+        budget: 0,
+      },
     ])
 
-    addActivity(`Added ${cleanRoomName}`)
     return true
   }
 
   const deleteRoom = (roomId) => {
-    const room = rooms.find((room) => room.id === Number(roomId))
-    const roomHasItems = items.some((item) => item.roomId === Number(roomId))
+    const roomHasItems = items.some(
+      (item) => item.roomId === Number(roomId)
+    )
 
     if (roomHasItems) return false
 
@@ -73,7 +62,6 @@ export function FurnishProvider({ children }) {
       prevRooms.filter((room) => room.id !== Number(roomId))
     )
 
-    addActivity(`Deleted ${room?.name || 'room'}`)
     return true
   }
 
@@ -82,12 +70,11 @@ export function FurnishProvider({ children }) {
 
     setRooms((prevRooms) =>
       prevRooms.map((room) =>
-        room.id === Number(roomId) ? { ...room, budget: cleanBudget } : room
+        room.id === Number(roomId)
+          ? { ...room, budget: cleanBudget }
+          : room
       )
     )
-
-    const room = rooms.find((room) => room.id === Number(roomId))
-    addActivity(`Updated ${room?.name || 'room'} budget`)
   }
 
   const addItem = (item) => {
@@ -102,12 +89,12 @@ export function FurnishProvider({ children }) {
         roomId: Number(item.roomId),
       },
     ])
-
-    addActivity(`Added ${item.name}`)
   }
 
   const updateItem = (itemId, updatedItem) => {
-    const cleanPrice = Number(String(updatedItem.price).replace(/\D/g, ''))
+    const cleanPrice = Number(
+      String(updatedItem.price).replace(/\D/g, '')
+    )
 
     setItems((prevItems) =>
       prevItems.map((item) =>
@@ -121,33 +108,28 @@ export function FurnishProvider({ children }) {
           : item
       )
     )
-
-    addActivity(`Updated ${updatedItem.name}`)
   }
 
   const deleteItem = (itemId) => {
-    const item = items.find((item) => item.id === itemId)
-
-    setItems((prevItems) => prevItems.filter((item) => item.id !== itemId))
-
-    addActivity(`Deleted ${item?.name || 'item'}`)
+    setItems((prevItems) =>
+      prevItems.filter((item) => item.id !== itemId)
+    )
   }
 
   const toggleItemStatus = (itemId) => {
-    const item = items.find((item) => item.id === itemId)
-
     setItems((prevItems) =>
       prevItems.map((item) =>
         item.id === itemId
           ? {
               ...item,
-              status: item.status === 'Bought' ? 'Planned' : 'Bought',
+              status:
+                item.status === 'Bought'
+                  ? 'Planned'
+                  : 'Bought',
             }
           : item
       )
     )
-
-    addActivity(`Changed ${item?.name || 'item'} status`)
   }
 
   return (
@@ -155,7 +137,6 @@ export function FurnishProvider({ children }) {
       value={{
         rooms,
         items,
-        activity,
         addRoom,
         deleteRoom,
         updateRoomBudget,

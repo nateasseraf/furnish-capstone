@@ -14,7 +14,6 @@
   --danger: #b42318;
   --shadow: 0 12px 30px rgba(31, 31, 31, 0.08);
   --radius: 20px;
-  --accent: #d5a17a;
   --accent-blue: #6d8ca6;
 }
 
@@ -308,12 +307,6 @@ button:hover,
 .item-row button:hover {
   transform: translateY(-1px);
   opacity: 0.92;
-}
-
-.form-divider {
-  margin: 4px 0;
-  font-weight: 800;
-  color: var(--muted);
 }
 
 .error-message {
@@ -804,4 +797,17 @@ nav a.active {
 
 .budget-room-row label {
   margin: 0;
+}
+
+.budget-room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.success-message {
+  color: #176b34;
+  font-weight: 700;
+
 }

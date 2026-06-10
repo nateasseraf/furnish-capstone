@@ -59,25 +59,26 @@ function Budget() {
 
         {rooms.map((room) => (
           <div className="budget-room-row" key={room.id}>
-            <label>
-              {room.name}
-              <input
-                type="text"
-                inputMode="numeric"
-                value={room.budget}
-                onChange={(e) =>
-                  updateRoomBudget(room.id, e.target.value.replace(/\D/g, ""))
-                }
-              />
-            </label>
+            <div className="budget-room-header">
+              <span>{room.name}</span>
 
-            <button
-              type="button"
-              className="room-delete-button"
-              onClick={() => handleDeleteRoom(room)}
-            >
-              Delete
-            </button>
+              <button
+                type="button"
+                className="room-delete-button"
+                onClick={() => handleDeleteRoom(room)}
+              >
+                Delete
+              </button>
+            </div>
+
+            <input
+              type="text"
+              inputMode="numeric"
+              value={room.budget}
+              onChange={(e) =>
+                updateRoomBudget(room.id, e.target.value.replace(/\D/g, ""))
+              }
+            />
           </div>
         ))}
 

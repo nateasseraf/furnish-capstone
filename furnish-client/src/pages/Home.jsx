@@ -76,7 +76,7 @@ function Home() {
         <div>
           <p className="eyebrow">Furnish Dashboard</p>
           <h2>Welcome home, {user.firstName}</h2>
-          <p>Here is your apartment furnishing snapshot.</p>
+          <p>Track your budget, purchases, and furnishing plans in one place.</p>
         </div>
 
         <div className="insight-banner">

@@ -6,7 +6,7 @@ function NavTabs() {
 
   return (
     <nav>
-      <NavLink to="/">Home</NavLink>
+      <NavLink end to="/">Home</NavLink>
 
       {user ? (
         <>

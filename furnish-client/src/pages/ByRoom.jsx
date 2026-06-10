@@ -43,7 +43,10 @@ function ByRoom() {
   return (
     <section>
       <h2>By Room</h2>
-      <p>Track your furniture plans room by room.</p>
+      <p>
+        View your furnishing plans organized by room. Manage rooms and budgets
+        from the Budget tab.
+      </p>
 
       <div className="room-grid">
         {rooms.map((room) => {
