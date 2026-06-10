@@ -2,17 +2,8 @@ import { useState } from "react";
 import { useFurnish } from "../context/FurnishContext";
 
 function ByRoom() {
-  const {
-    rooms,
-    items,
-    addRoom,
-    deleteRoom,
-    deleteItem,
-    toggleItemStatus,
-    updateItem,
-  } = useFurnish();
+  const { rooms, items, toggleItemStatus, updateItem } = useFurnish();
 
-  const [roomName, setRoomName] = useState("");
   const [expandedRoomId, setExpandedRoomId] = useState(null);
   const [editingItemId, setEditingItemId] = useState(null);
 
@@ -24,35 +15,6 @@ function ByRoom() {
     roomId: "",
     status: "Planned",
   });
-
-  const handleAddRoom = (e) => {
-    e.preventDefault();
-
-    const roomAdded = addRoom(roomName);
-
-    if (!roomAdded) {
-      alert("A room with that name already exists.");
-      return;
-    }
-
-    setRoomName("");
-  };
-
-  const handleDeleteRoom = (room) => {
-    const confirmed = window.confirm(
-      `Delete ${room.name}? This cannot be undone.`,
-    );
-
-    if (!confirmed) return;
-
-    const roomDeleted = deleteRoom(room.id);
-
-    if (!roomDeleted) {
-      alert(
-        "You need to delete or move the items in this room before deleting it.",
-      );
-    }
-  };
 
   const toggleRoom = (roomId) => {
     setExpandedRoomId((currentRoomId) =>
@@ -82,16 +44,6 @@ function ByRoom() {
     <section>
       <h2>By Room</h2>
       <p>Track your furniture plans room by room.</p>
-
-      <form className="inline-form" onSubmit={handleAddRoom}>
-        <input
-          type="text"
-          placeholder="Add a new room"
-          value={roomName}
-          onChange={(e) => setRoomName(e.target.value)}
-        />
-        <button type="submit">Add Room</button>
-      </form>
 
       <div className="room-grid">
         {rooms.map((room) => {
@@ -129,207 +81,211 @@ function ByRoom() {
 
                   <span>{isExpanded ? "−" : "+"}</span>
                 </button>
-
-                <button
-                  type="button"
-                  className="room-delete-button"
-                  onClick={() => handleDeleteRoom(room)}
-                >
-                  Delete
-                </button>
               </div>
 
-<div className={`room-details ${isExpanded ? 'expanded' : ''}`}>
-  <div className="room-budget-highlight">
-    <span>${room.budget}</span>
-    <small>Total room budget</small>
-  </div>
+              <div className={`room-details ${isExpanded ? "expanded" : ""}`}>
+                <div className="room-budget-highlight">
+                  <span>${room.budget}</span>
+                  <small>Total room budget</small>
+                </div>
 
-  <div className="progress-bar">
-    <div style={{ width: `${usedPercentage}%` }}></div>
-  </div>
+                <div className="progress-bar">
+                  <div style={{ width: `${usedPercentage}%` }}></div>
+                </div>
 
-  <small className="room-progress-text">
-    {Math.round(usedPercentage)}% of budget used
-  </small>
+                <small className="room-progress-text">
+                  {Math.round(usedPercentage)}% of budget used
+                </small>
 
-  <div className="room-stats">
-    <div>
-      <strong>${boughtTotal}</strong>
-      <span>Spent</span>
-    </div>
+                <div className="room-stats">
+                  <div>
+                    <strong>${boughtTotal}</strong>
+                    <span>Spent</span>
+                  </div>
 
-    <div>
-      <strong>${remaining}</strong>
-      <span>Remaining</span>
-    </div>
+                  <div>
+                    <strong>${remaining}</strong>
+                    <span>Remaining</span>
+                  </div>
 
-    <div>
-      <strong>${plannedTotal}</strong>
-      <span>Planned</span>
-    </div>
-  </div>
+                  <div>
+                    <strong>${plannedTotal}</strong>
+                    <span>Planned</span>
+                  </div>
+                </div>
 
-  {roomItems.length === 0 && (
-    <div className="empty-state">
-      <p>No items added yet.</p>
-      <span>Add your first item from the Add Item page.</span>
-    </div>
-  )}
+                {roomItems.length === 0 && (
+                  <div className="empty-state">
+                    <p>No items added yet.</p>
+                    <span>Add your first item from the Add Item page.</span>
+                  </div>
+                )}
 
-  {roomItems.map((item) => (
-    <div className="item-row" key={item.id}>
-      {editingItemId === item.id ? (
-        <form className="edit-form" onSubmit={saveEdit}>
-          <label>
-            Product Link
-            <input
-              type="url"
-              value={editForm.productUrl}
-              onChange={(e) =>
-                setEditForm({
-                  ...editForm,
-                  productUrl: e.target.value,
-                })
-              }
-            />
-          </label>
+                {roomItems.map((item) => (
+                  <div className="item-row" key={item.id}>
+                    {editingItemId === item.id ? (
+                      <form className="edit-form" onSubmit={saveEdit}>
+                        <label>
+                          Product Link
+                          <input
+                            type="url"
+                            value={editForm.productUrl}
+                            onChange={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                productUrl: e.target.value,
+                              })
+                            }
+                          />
+                        </label>
 
-          <label>
-            Item Name
-            <input
-              type="text"
-              value={editForm.name}
-              onChange={(e) =>
-                setEditForm({
-                  ...editForm,
-                  name: e.target.value,
-                })
-              }
-            />
-          </label>
+                        <label>
+                          Item Name
+                          <input
+                            type="text"
+                            value={editForm.name}
+                            onChange={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                name: e.target.value,
+                              })
+                            }
+                          />
+                        </label>
 
-          <label>
-            Store
-            <input
-              type="text"
-              value={editForm.store}
-              onChange={(e) =>
-                setEditForm({
-                  ...editForm,
-                  store: e.target.value,
-                })
-              }
-            />
-          </label>
+                        <label>
+                          Store
+                          <input
+                            type="text"
+                            value={editForm.store}
+                            onChange={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                store: e.target.value,
+                              })
+                            }
+                          />
+                        </label>
 
-          <label>
-            Price
-            <input
-              type="text"
-              inputMode="numeric"
-              value={editForm.price}
-              onChange={(e) =>
-                setEditForm({
-                  ...editForm,
-                  price: e.target.value.replace(/\D/g, ''),
-                })
-              }
-            />
-          </label>
+                        <label>
+                          Price
+                          <input
+                            type="text"
+                            inputMode="numeric"
+                            value={editForm.price}
+                            onChange={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                price: e.target.value.replace(/\D/g, ""),
+                              })
+                            }
+                          />
+                        </label>
 
-          <label>
-            Room
-            <select
-              value={editForm.roomId}
-              onChange={(e) =>
-                setEditForm({
-                  ...editForm,
-                  roomId: e.target.value,
-                })
-              }
-            >
-              {rooms.map((availableRoom) => (
-                <option key={availableRoom.id} value={availableRoom.id}>
-                  {availableRoom.name}
-                </option>
-              ))}
-            </select>
-          </label>
+                        <label>
+                          Room
+                          <select
+                            value={editForm.roomId}
+                            onChange={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                roomId: e.target.value,
+                              })
+                            }
+                          >
+                            {rooms.map((availableRoom) => (
+                              <option
+                                key={availableRoom.id}
+                                value={availableRoom.id}
+                              >
+                                {availableRoom.name}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
 
-          <label>
-            Status
-            <select
-              value={editForm.status}
-              onChange={(e) =>
-                setEditForm({
-                  ...editForm,
-                  status: e.target.value,
-                })
-              }
-            >
-              <option>Planned</option>
-              <option>Bought</option>
-            </select>
-          </label>
+                        <label>
+                          Status
+                          <select
+                            value={editForm.status}
+                            onChange={(e) =>
+                              setEditForm({
+                                ...editForm,
+                                status: e.target.value,
+                              })
+                            }
+                          >
+                            <option>Planned</option>
+                            <option>Bought</option>
+                          </select>
+                        </label>
 
-          <div className="item-actions">
-            <button type="submit">Save</button>
-            <button type="button" onClick={() => setEditingItemId(null)}>
-              Cancel
-            </button>
-          </div>
-        </form>
-      ) : (
-        <>
-          <div>
-            <strong>{item.name}</strong>
-            <p>
-              {item.store} - ${item.price}
-            </p>
+                        <div className="item-actions">
+                          <button type="submit">Save</button>
+                          <button
+                            type="button"
+                            onClick={() => setEditingItemId(null)}
+                          >
+                            Cancel
+                          </button>
+                        </div>
+                      </form>
+                    ) : (
+                      <>
+                        <div>
+                          <strong>{item.name}</strong>
+                          <p>
+                            {item.store} - ${item.price}
+                          </p>
 
-            <div className="item-meta">
-              <span className={`status-badge ${item.status.toLowerCase()}`}>
-                {item.status}
-              </span>
+                          <div className="item-meta">
+                            <span
+                              className={`status-badge ${item.status.toLowerCase()}`}
+                            >
+                              {item.status}
+                            </span>
 
-              {item.productUrl && (
-                <a
-                  href={item.productUrl}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="view-item-link"
-                >
-                  View item
-                </a>
-              )}
+                            {item.productUrl && (
+                              <a
+                                href={item.productUrl}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="view-item-link"
+                              >
+                                View item
+                              </a>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="item-actions">
+                          <button
+                            type="button"
+                            onClick={() => toggleItemStatus(item.id)}
+                          >
+                            {item.status === "Bought"
+                              ? "Mark Planned"
+                              : "Mark Bought"}
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => startEditing(item)}
+                          >
+                            Edit
+                          </button>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-
-          <div className="item-actions">
-            <button type="button" onClick={() => toggleItemStatus(item.id)}>
-              {item.status === 'Bought' ? 'Mark Planned' : 'Mark Bought'}
-            </button>
-
-            <button type="button" onClick={() => startEditing(item)}>
-              Edit
-            </button>
-
-            <button type="button" onClick={() => deleteItem(item.id)}>
-              Delete
-            </button>
-          </div>
-        </>
-      )}
-    </div>
-  ))}
-</div>
-            </div>
-          )
+          );
         })}
       </div>
     </section>
-  )
+  );
 }
 
-export default ByRoom
+export default ByRoom;

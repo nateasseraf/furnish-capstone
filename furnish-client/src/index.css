@@ -15,6 +15,7 @@
   --shadow: 0 12px 30px rgba(31, 31, 31, 0.08);
   --radius: 20px;
   --accent: #d5a17a;
+  --accent-blue: #6d8ca6;
 }
 
 body {
@@ -238,7 +239,7 @@ section>p {
 
 .progress-bar div {
   height: 100%;
-  background: var(--accent);
+  background: var(--accent-blue);
   border-radius: 999px;
 }
 
@@ -542,20 +543,14 @@ button:hover,
   padding: 10px 16px;
 }
 
-.room-card-header {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  align-items: flex-start;
-
-}
-
 .room-delete-button {
-  background: var(--primary-soft);
+  background: none;
+  border: none;
   color: var(--danger);
-  padding: 8px 12px;
+  padding: 0;
   font-size: 13px;
-
+  font-weight: 800;
+  cursor: pointer;
 }
 
 
@@ -590,14 +585,6 @@ button:hover,
   margin: 0;
   color: var(--muted);
   font-weight: 700;
-
-}
-
-.room-delete-button {
-  background: var(--primary-soft);
-  color: var(--danger);
-  padding: 8px 12px;
-  font-size: 13px;
 
 }
 
@@ -693,19 +680,6 @@ button:hover,
 
 }
 
-.recent-activity-card {
-  margin-top: 24px;
-
-}
-
-.recent-activity-card ul {
-  margin: 0;
-  padding-left: 20px;
-  color: var(--muted);
-  line-height: 1.8;
-
-}
-
 @media (max-width: 768px) {
   .logo-image {
     height: 54px;
@@ -776,4 +750,58 @@ button:hover,
   .room-expand-button {
     cursor: default;
   }
+}
+
+.view-item-link {
+  color: var(--accent-blue);
+  font-weight: 900;
+}
+
+.room-expand-button span {
+  color: var(--accent-blue);
+}
+
+a {
+  color: var(--accent-blue);
+}
+
+nav a.active {
+  background: var(--accent-blue);
+  color: white;
+}
+
+.budget-total {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.budget-total span {
+  font-weight: 800;
+}
+
+.budget-total strong {
+  font-size: 32px;
+  font-weight: 900;
+  letter-spacing: -0.04em;
+}
+
+.budget-total small {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.budget-room-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  align-items: end;
+  margin-bottom: 16px;
+}
+
+.budget-room-row label {
+  margin: 0;
 }

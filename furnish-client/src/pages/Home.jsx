@@ -29,7 +29,7 @@ function Home() {
   const plannedPercentage =
     totalBudget > 0 ? Math.min((planned / totalBudget) * 100, 100) : 0
 
-  const shouldShowInsight = totalBudget > 0 || spent > 0 || planned > 0
+  const isEmptyDashboard = totalBudget === 0 && spent === 0 && planned === 0
 
   const insights = [
     `You have spent $${spent} so far.`,
@@ -75,16 +75,29 @@ function Home() {
       <div className="home-hero">
         <div>
           <p className="eyebrow">Furnish Dashboard</p>
-          <h2>Welcome back, {user.firstName}</h2>
+          <h2>Welcome home, {user.firstName}</h2>
           <p>Here is your apartment furnishing snapshot.</p>
         </div>
 
-        {shouldShowInsight && (
-          <div className="insight-banner">
-            <span>Smart Budget Insight</span>
-            <p>{selectedInsight}</p>
-          </div>
-        )}
+        <div className="insight-banner">
+          {isEmptyDashboard ? (
+            <>
+              <span>Let&apos;s get started</span>
+              <p>
+                1. Enter your rooms and budgets in the Budget tab.
+                <br />
+                2. Add items you&apos;ve purchased or are planning to purchase.
+                <br />
+                3. Stay on track as your apartment plan comes together.
+              </p>
+            </>
+          ) : (
+            <>
+              <span>Smart Budget Insight</span>
+              <p>{selectedInsight}</p>
+            </>
+          )}
+        </div>
       </div>
 
       <div className="dashboard-grid">

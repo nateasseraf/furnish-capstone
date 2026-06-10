@@ -1,42 +1,94 @@
-import { useFurnish } from '../context/FurnishContext'
+import { useState } from "react";
+import { useFurnish } from "../context/FurnishContext";
 
 function Budget() {
-  const { rooms, updateRoomBudget } = useFurnish()
+  const { rooms, addRoom, deleteRoom, updateRoomBudget } = useFurnish();
+  const [roomName, setRoomName] = useState("");
 
-  const totalBudget = rooms.reduce(
+  const totalRoomBudget = rooms.reduce(
     (total, room) => total + Number(room.budget),
-    0
-  )
+    0,
+  );
+
+  const handleAddRoom = (e) => {
+    e.preventDefault();
+
+    const roomAdded = addRoom(roomName);
+
+    if (!roomAdded) {
+      alert("A room with that name already exists.");
+      return;
+    }
+
+    setRoomName("");
+  };
+
+  const handleDeleteRoom = (room) => {
+    const confirmed = window.confirm(
+      `Delete ${room.name}? This cannot be undone.`,
+    );
+
+    if (!confirmed) return;
+
+    const roomDeleted = deleteRoom(room.id);
+
+    if (!roomDeleted) {
+      alert(
+        "You need to delete the item(s) in this room before deleting it.",
+      );
+    }
+  };
 
   return (
     <section>
       <h2>Budget</h2>
-      <p>Set a budget for each room in your apartment.</p>
+      <p>Create rooms and set a budget for each area in your apartment.</p>
 
-      <div className="dashboard-grid">
-        <div className="card">
-          <h3>Total Room Budget</h3>
-          <p className="stat">${totalBudget}</p>
-        </div>
-      </div>
+      <form className="inline-form" onSubmit={handleAddRoom}>
+        <input
+          type="text"
+          placeholder="Add a new room"
+          value={roomName}
+          onChange={(e) => setRoomName(e.target.value)}
+        />
+        <button type="submit">Add Room</button>
+      </form>
 
       <div className="form-card">
         <h3>Room Budgets</h3>
 
         {rooms.map((room) => (
-          <label key={room.id}>
-            {room.name}
-            <input
-              type="text"
-              inputMode="numeric"
-              value={room.budget}
-              onChange={(e) => updateRoomBudget(room.id, e.target.value)}
-            />
-          </label>
+          <div className="budget-room-row" key={room.id}>
+            <label>
+              {room.name}
+              <input
+                type="text"
+                inputMode="numeric"
+                value={room.budget}
+                onChange={(e) =>
+                  updateRoomBudget(room.id, e.target.value.replace(/\D/g, ""))
+                }
+              />
+            </label>
+
+            <button
+              type="button"
+              className="room-delete-button"
+              onClick={() => handleDeleteRoom(room)}
+            >
+              Delete
+            </button>
+          </div>
         ))}
+
+        <div className="budget-total">
+          <span>Total Budget</span>
+          <strong>${totalRoomBudget}</strong>
+          <small>Across all rooms</small>
+        </div>
       </div>
     </section>
-  )
+  );
 }
 
-export default Budget
+export default Budget;
