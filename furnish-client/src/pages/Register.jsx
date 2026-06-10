@@ -1,5 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../context/AuthContext'
 
 function Register() {
@@ -7,35 +7,36 @@ function Register() {
   const navigate = useNavigate()
 
   const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
 
-    if (password !== confirmPassword) {
-      setError('Passwords do not match.')
+    if (!firstName || !lastName || !email || !password) {
+      setMessage('Please complete all required fields.')
       return
     }
 
-    register(firstName, email, password)
+    register(firstName, lastName, email, password)
     navigate('/')
   }
 
   return (
     <section>
       <h2>Register</h2>
-      <p>Create an account to start planning your furniture purchases.</p>
+      <p>Create an account to start planning your apartment.</p>
 
       <form className="form-card" onSubmit={handleSubmit}>
-        {error && <p className="error-message">{error}</p>}
+        {message && <p className="error-message">{message}</p>}
 
         <label>
           First Name
           <input
             type="text"
+            required
             placeholder="Nate"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
@@ -43,9 +44,21 @@ function Register() {
         </label>
 
         <label>
+          Last Name
+          <input
+            type="text"
+            required
+            placeholder="Asseraf"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </label>
+
+        <label>
           Email
           <input
             type="email"
+            required
             placeholder="you@email.com"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -56,26 +69,17 @@ function Register() {
           Password
           <input
             type="password"
+            required
             placeholder="Create a password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
         </label>
 
-        <label>
-          Confirm Password
-          <input
-            type="password"
-            placeholder="Confirm your password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-        </label>
-
         <button type="submit">Create Account</button>
 
         <p>
-          Already have an account? <Link to="/login">Log In</Link>
+          Already have an account? <Link to="/login">Log in</Link>
         </p>
       </form>
     </section>

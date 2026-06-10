@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
   calculateTotalSpent,
   calculatePlannedTotal,
@@ -6,9 +7,11 @@ import {
   calculateTopUpNeeded,
 } from '../utils/budgetUtils'
 import { useFurnish } from '../context/FurnishContext'
+import { useAuth } from '../context/AuthContext'
 
 function Home() {
   const { rooms, items } = useFurnish()
+  const { user } = useAuth()
 
   const totalBudget = rooms.reduce(
     (total, room) => total + Number(room.budget),
@@ -40,12 +43,37 @@ function Home() {
     return insights[randomIndex]
   })
 
+  if (!user) {
+    return (
+      <section>
+        <div className="home-hero">
+          <div>
+            <p className="eyebrow">Furnish Dashboard</p>
+            <h2>Plan your space with less chaos.</h2>
+            <p>
+              Log in or create an account to track rooms, furniture items,
+              budgets, and purchases in one place.
+            </p>
+          </div>
+
+          <div className="insight-banner">
+            <span>Get Started</span>
+            <p>Create an account to unlock your furnishing dashboard.</p>
+            <Link className="banner-link" to="/login">
+              Log in
+            </Link>
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   return (
     <section>
       <div className="home-hero">
         <div>
           <p className="eyebrow">Furnish Dashboard</p>
-          <h2>Welcome back, Nate</h2>
+          <h2>Welcome back, {user.firstName}</h2>
           <p>Here is your apartment furnishing snapshot.</p>
         </div>
 
@@ -65,11 +93,9 @@ function Home() {
         <div className="card stat-card">
           <h3>Spent</h3>
           <p className="stat">${spent}</p>
-
           <div className="progress-bar">
             <div style={{ width: `${spentPercentage}%` }}></div>
           </div>
-
           <small>{Math.round(spentPercentage)}% of budget used</small>
         </div>
 
@@ -82,11 +108,9 @@ function Home() {
         <div className="card stat-card">
           <h3>Planned</h3>
           <p className="stat">${planned}</p>
-
           <div className="progress-bar">
             <div style={{ width: `${plannedPercentage}%` }}></div>
           </div>
-
           <small>{Math.round(plannedPercentage)}% planned</small>
         </div>
       </div>

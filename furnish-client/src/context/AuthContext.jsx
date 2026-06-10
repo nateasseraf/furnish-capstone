@@ -8,10 +8,10 @@ export function AuthProvider({ children }) {
     return savedUser ? JSON.parse(savedUser) : null
   })
 
-  const register = (firstName, email, password) => {
+  const register = (firstName, lastName, email, password) => {
     const newUser = {
       firstName,
-      lastName: '',
+      lastName,
       email,
       password,
     }
