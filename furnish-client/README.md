@@ -149,6 +149,12 @@ Repository:
 https://github.com/nateasseraf/furnish-capstone
 
 ---
+## Live Demo
+
+Add your deployed application URL here:
+
+https://your-deployment-url.com
+___
 
 ## Application Structure
 
